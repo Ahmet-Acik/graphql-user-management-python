@@ -1,5 +1,5 @@
 import graphene
-from address import Address
+from models.address import Address
 
 class User(graphene.ObjectType):
     id = graphene.String()
