@@ -2,16 +2,23 @@ import graphene
 from mutations.create_user import CreateUser
 from mutations.update_user import UpdateUser
 from mutations.delete_user import DeleteUser
-from queries.get_user import GetUser
-from queries.get_users import GetUsers
+from models.user import User  # Import User
+from data import users  # Import users list
 
 class MyMutations(graphene.ObjectType):
     create_user = CreateUser.Field()
     update_user = UpdateUser.Field()
     delete_user = DeleteUser.Field()
 
-class MyQuery(GetUser, GetUsers, graphene.ObjectType):
-    pass
+class MyQuery(graphene.ObjectType):
+    user = graphene.Field(User, id=graphene.ID(required=True))
+    users = graphene.List(User)
+
+    def resolve_user(self, info, id):
+        return next((user for user in users if user["id"] == id), None)
+
+    def resolve_users(self, info):
+        return users
 
 schema = graphene.Schema(query=MyQuery, mutation=MyMutations)
 
@@ -76,7 +83,7 @@ execute_and_print(
     "Fetching all users before deleting the user with id 3:",
     """
 {
-  getUsers {
+  users {
     id
     name
     email
@@ -122,7 +129,7 @@ execute_and_print(
     "Fetching all users after deleting the user with id 3:",
     """
 {
-  getUsers {
+  users {
     id
     name
     email
@@ -144,7 +151,7 @@ execute_and_print(
     "Fetching the user with id 1:",
     """
 {
-  getUser(id: "1") {
+  user(id: "1") {
     id
     name
     email

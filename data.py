@@ -3,7 +3,6 @@ users = [
         "id": "1",
         "name": "Ahmet Doe",
         "email": "ahmet@gmail.com",
-        "password": "123456",
         "address": {
             "street": "123 Main St",
             "city": "Anytown",
@@ -17,7 +16,6 @@ users = [
         "id": "2",
         "name": "Mehmet Doe",
         "email": "mehmet@gmail.com",
-        "password": "123456",
         "address": {
             "street": "456 Elm St",
             "city": "Othertown",

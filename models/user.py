@@ -9,3 +9,12 @@ class User(graphene.ObjectType):
     address = graphene.Field(Address)
     phone = graphene.String()
     roles = graphene.List(graphene.String)
+    
+    @staticmethod
+    def get(id):
+        # Fetch the user by id from the database
+        pass
+
+    def delete(self):
+        # Delete the user from the database
+        pass
