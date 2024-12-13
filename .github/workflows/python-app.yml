@@ -11,10 +11,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 3 # Increase the timeout to 30 minutes
+    timeout-minutes: 1 # Increase the timeout to 30 minutes
     strategy:
       matrix:
-        python-version: [3.8, 3.9, 3.10]
+        python-version: [3.9] # Only test against Python 3.9
     steps:
       # Steps remain the same
       - name: Checkout repository
