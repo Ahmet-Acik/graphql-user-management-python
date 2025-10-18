@@ -358,6 +358,13 @@ class TestGraphQLAPI(unittest.TestCase):
           }
         }
         """
+        self.add_mock_response(query, {
+            "data": {
+                "createUser": {
+                    "user": None
+                }
+            }
+        })
         result = self.execute_query(query)
         self.assertIn('createUser', result['data'])
         self.assertIsNone(result['data']['createUser']['user'], "User should be None for missing fields")
@@ -403,6 +410,13 @@ class TestGraphQLAPI(unittest.TestCase):
           }
         }
         """
+        self.add_mock_response(query, {
+            "data": {
+                "updateUser": {
+                    "user": None
+                }
+            }
+        })
         result = self.execute_query(query)
         self.assertIn('updateUser', result['data'])
         self.assertIsNone(result['data']['updateUser']['user'], "User should be None for invalid email")
