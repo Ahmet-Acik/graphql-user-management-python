@@ -17,6 +17,10 @@ class CreateUser(graphene.Mutation):
 
     user = graphene.Field(lambda: User)
 
+    def __init__(self, user=None):
+        super().__init__()
+        self.user = user
+
     def mutate(self, info, id, name, email, password, street=None, city=None, state=None, zip=None, phone=None, roles=None):
         address = {"street": street, "city": city, "state": state, "zip": zip}
         user_data = {"id": id, "name": name, "email": email, "password": password, "address": address, "phone": phone, "roles": roles}
