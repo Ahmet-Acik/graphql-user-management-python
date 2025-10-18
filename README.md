@@ -1,11 +1,12 @@
 
+
 # GraphQL User Management
 
 ![Build Status](https://github.com/your-username/graphql-user-management/actions/workflows/python-app.yml/badge.svg)
 ![Python Version](https://img.shields.io/badge/python-3.9-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-A GraphQL-based user management system built with Python and Flask. This project allows you to create, update, delete, and fetch users using GraphQL queries and mutations.
+A comprehensive user management system built with Python, Flask, and Graphene. It exposes a GraphQL API for creating, updating, deleting, and fetching users. The project includes robust unit and integration tests, and is ready for local development and CI/CD.
 
 ## Table of Contents
 
@@ -19,13 +20,17 @@ A GraphQL-based user management system built with Python and Flask. This project
 - [Contributing](#contributing)
 - [License](#license)
 
+
 ## Features
 
-- **Create User**: Add new users to the system.
-- **Update User**: Modify existing user details.
-- **Delete User**: Remove users from the system.
-- **Fetch Users**: Retrieve a list of all users.
-- **Fetch User by ID**: Get details of a specific user by ID.
+- **Create User**: Add new users with full details (name, email, address, phone, roles).
+- **Update User**: Modify any user field, including address and roles.
+- **Delete User**: Remove users by ID.
+- **Fetch Users**: Retrieve all users with full details.
+- **Fetch User by ID**: Get details of a specific user.
+- **GraphQL Playground**: Interactive browser interface at `/graphql` for testing queries and mutations.
+- **Input Validation**: Ensures required fields and valid email formats.
+- **Comprehensive Testing**: Unit and integration tests for all major features.
 
 ## Getting Started
 
@@ -69,6 +74,7 @@ A GraphQL-based user management system built with Python and Flask. This project
    pip install -r requirements.txt
    ```
 
+
 ## Running the Application
 
 1. **Start the Flask application**:
@@ -77,37 +83,56 @@ A GraphQL-based user management system built with Python and Flask. This project
    python app.py
    ```
 
-2. **Access the GraphQL interface**:
+   By default, the app runs on port 5000. If you encounter port conflicts, you can change the port in `app.py`:
+   ```python
+   if __name__ == "__main__":
+       app.run(debug=True, port=5050)
+   ```
 
-   Open your browser and navigate to `http://localhost:5000/graphql`.
+2. **Access the GraphQL Playground**:
+
+   Open your browser and navigate to `http://localhost:5000/graphql` (or the port you set). You can interactively test queries and mutations here.
+
+3. **Troubleshooting**:
+   - If you get a 403 Forbidden error, ensure no other process is using the port (use `lsof -i :5000`).
+   - Make sure your Flask app is running and you see `* Running on http://127.0.0.1:5000/` in the terminal.
+   - For port issues, kill conflicting processes and restart Flask.
+
 
 ## Running Tests
 
-1. **Ensure that the virtual environment is activated**.
+1. **Activate your virtual environment**.
 
-2. **Run the tests using `unittest`**:
-
+2. **Run all tests (unit and integration):**
    ```sh
    python -m unittest discover tests
    ```
 
+3. **Run only integration tests:**
+   ```sh
+   python -m unittest tests/test_app_integration.py
+   ```
+
+4. **Test output:**
+   - Unit tests use mocks and do not require the Flask app to be running.
+   - Integration tests require the Flask app to be running and will send real HTTP requests to `/graphql`.
+   - All test logs and errors are printed to the console for easy debugging.
+
+
 ## Continuous Integration
 
-This project uses GitHub Actions for continuous integration. The workflow is defined in the 
+This project uses GitHub Actions for CI. The workflow is defined in `python-app.yml` and runs all tests on every push and pull request to the `main` branch.
 
-python-app.yml
-
- file. It runs the tests on every push and pull request to the `main` branch.
 
 ## Contributing
 
-Contributions are welcome! Please follow these steps to contribute:
+Contributions are welcome! Please:
+- Fork the repository.
+- Create a new branch for your feature or bugfix.
+- Make your changes and commit with a descriptive message.
+- Push your changes to your fork.
+- Create a pull request to the `main` branch.
 
-1. **Fork the repository**.
-2. **Create a new branch** for your feature or bugfix.
-3. **Make your changes** and commit them with a descriptive message.
-4. **Push your changes** to your fork.
-5. **Create a pull request** to the `main` branch of the original repository.
 
 ## License
 
