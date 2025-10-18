@@ -12,10 +12,13 @@ class DeleteUser(graphene.Mutation):
         global users
         print(f"Users before deletion: {users}")
         user_data = next((user for user in users if user["id"] == id), None)
+        delete_user = DeleteUser()
         if user_data:
             users[:] = [user for user in users if user["id"] != id]
             print(f"Deleted user: {user_data}")
             print(f"Users after deletion: {users}")
-            return DeleteUser(user=User(**user_data))
+            delete_user.user = User(**user_data)
+            return delete_user
         print("User not found")
-        return DeleteUser(user=None)
+        delete_user.user = None
+        return delete_user

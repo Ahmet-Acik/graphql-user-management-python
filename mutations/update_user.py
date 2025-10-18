@@ -32,5 +32,9 @@ class UpdateUser(graphene.Mutation):
                 user_data["phone"] = phone
             if roles:
                 user_data["roles"] = roles
-            return UpdateUser(user=User(**user_data))
-        return UpdateUser(user=None)
+            update_user = UpdateUser()
+            update_user.user = User(**user_data)
+            return update_user
+        update_user = UpdateUser()
+        update_user.user = None
+        return update_user
