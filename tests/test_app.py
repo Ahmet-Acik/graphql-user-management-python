@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)  # Create a logger object
 
 class TestGraphQLAPI(unittest.TestCase):
-    URL = "http://localhost:5000/graphql"  # This URL will be mocked as Django server is not running
+    URL = "http://localhost:5050/graphql"  # This URL will be mocked as Django server is not running
 
     def setUp(self):
         """Set up resources before each test."""
