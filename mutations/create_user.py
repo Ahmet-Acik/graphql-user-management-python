@@ -22,7 +22,14 @@ class CreateUser(graphene.Mutation):
         self.user = user
 
     def mutate(self, info, id, name, email, password, street=None, city=None, state=None, zip=None, phone=None, roles=None):
+        # Basic validation: reject empty name/email/password
+        if not name or not email or not password:
+            create_user = CreateUser()
+            create_user.user = None
+            return create_user
         address = {"street": street, "city": city, "state": state, "zip": zip}
         user_data = {"id": id, "name": name, "email": email, "password": password, "address": address, "phone": phone, "roles": roles}
         users.append(user_data)
-        return CreateUser(user=User(**user_data))
+        create_user = CreateUser()
+        create_user.user = User(**user_data)
+        return create_user
