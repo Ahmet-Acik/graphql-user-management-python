@@ -6,7 +6,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class TestGraphQLAPIIntegration(unittest.TestCase):
-    URL = "http://localhost:5000/graphql"
+    URL = "http://localhost:5050/graphql"
 
     def setUp(self):
         self.headers = {'Content-Type': 'application/json'}
@@ -15,7 +15,14 @@ class TestGraphQLAPIIntegration(unittest.TestCase):
         response = requests.post(self.URL, json={'query': query}, headers=self.headers)
         logger.info(f"Response status code: {response.status_code}")
         logger.info(f"Response content: {response.text}")
-        return response.json()
+        try:
+            result = response.json()
+            logger.info(f"Parsed JSON result: {result}")
+            return result
+        except Exception as e:
+            logger.error(f"Failed to parse JSON: {e}")
+            logger.error(f"Raw response: {response.text}")
+            return None
 
     def test_create_user_missing_fields(self):
         query = """
@@ -30,7 +37,8 @@ class TestGraphQLAPIIntegration(unittest.TestCase):
         }
         """
         result = self.execute_query(query)
-        self.assertIn('createUser', result['data'])
+        self.assertIsNotNone(result, "No response received from server")
+        self.assertIn('createUser', result.get('data', {}))
         self.assertIsNone(result['data']['createUser']['user'], "User should be None for missing fields")
 
     def test_delete_nonexistent_user(self):
@@ -44,7 +52,8 @@ class TestGraphQLAPIIntegration(unittest.TestCase):
         }
         """
         result = self.execute_query(query)
-        self.assertIn('deleteUser', result['data'])
+        self.assertIsNotNone(result, "No response received from server")
+        self.assertIn('deleteUser', result.get('data', {}))
         self.assertIsNone(result['data']['deleteUser']['user'])
 
     def test_update_user_invalid_email(self):
@@ -59,7 +68,8 @@ class TestGraphQLAPIIntegration(unittest.TestCase):
         }
         """
         result = self.execute_query(query)
-        self.assertIn('updateUser', result['data'])
+        self.assertIsNotNone(result, "No response received from server")
+        self.assertIn('updateUser', result.get('data', {}))
         self.assertIsNone(result['data']['updateUser']['user'], "User should be None for invalid email")
 
 if __name__ == '__main__':
