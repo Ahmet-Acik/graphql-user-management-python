@@ -21,10 +21,23 @@ class MyQuery(graphene.ObjectType):
     users = graphene.List(User)
 
     def resolve_user(self, info, id):
-        return next((user for user in users if user["id"] == id), None)
+        db = SessionLocal()
+        user_model = db.query(UserModel).filter_by(id=id).first()
+        db.close()
+        if user_model:
+            user_data = {"id": str(user_model.id), "name": user_model.name, "email": user_model.email, "password": user_model.password, "address": None, "phone": user_model.phone, "roles": user_model.roles.split(',') if user_model.roles else []}
+            return User(**user_data)
+        return None
 
     def resolve_users(self, info):
-        return users
+        db = SessionLocal()
+        user_models = db.query(UserModel).all()
+        db.close()
+        users_list = []
+        for user_model in user_models:
+            user_data = {"id": str(user_model.id), "name": user_model.name, "email": user_model.email, "password": user_model.password, "address": None, "phone": user_model.phone, "roles": user_model.roles.split(',') if user_model.roles else []}
+            users_list.append(User(**user_data))
+        return users_list
 
 schema = graphene.Schema(query=MyQuery, mutation=MyMutations)
 

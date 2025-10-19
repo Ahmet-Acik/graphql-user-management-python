@@ -1,6 +1,11 @@
 import graphene
 from models.user import User
-from data import users
+from models.user_model import UserModel
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine
+
+engine = create_engine('sqlite:///users.db')
+SessionLocal = sessionmaker(bind=engine)
 
 class DeleteUser(graphene.Mutation):
     class Arguments:
@@ -9,16 +14,16 @@ class DeleteUser(graphene.Mutation):
     user = graphene.Field(lambda: User)
 
     def mutate(self, info, id):
-        global users
-        print(f"Users before deletion: {users}")
-        user_data = next((user for user in users if user["id"] == id), None)
+        db = SessionLocal()
+        user_model = db.query(UserModel).filter_by(id=id).first()
         delete_user = DeleteUser()
-        if user_data:
-            users[:] = [user for user in users if user["id"] != id]
-            print(f"Deleted user: {user_data}")
-            print(f"Users after deletion: {users}")
+        if user_model:
+            user_data = {"id": str(user_model.id), "name": user_model.name, "email": user_model.email, "password": user_model.password, "address": None, "phone": user_model.phone, "roles": user_model.roles.split(',') if user_model.roles else []}
+            db.delete(user_model)
+            db.commit()
             delete_user.user = User(**user_data)
+            db.close()
             return delete_user
-        print("User not found")
         delete_user.user = None
+        db.close()
         return delete_user
