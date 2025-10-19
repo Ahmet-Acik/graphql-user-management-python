@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests responses
+          pip install -r requirements.txt
 
       - name: Start Flask app
         run: nohup python app.py &

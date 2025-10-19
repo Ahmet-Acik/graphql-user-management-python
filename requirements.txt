@@ -1,0 +1,6 @@
+graphene
+flask
+flask-cors
+requests
+responses
+pyyaml
