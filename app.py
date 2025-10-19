@@ -2,6 +2,9 @@
 import graphene
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from models.user_model import Base, UserModel
 from mutations.create_user import CreateUser
 from mutations.update_user import UpdateUser
 from mutations.delete_user import DeleteUser
@@ -25,8 +28,14 @@ class MyQuery(graphene.ObjectType):
 
 schema = graphene.Schema(query=MyQuery, mutation=MyMutations)
 
+
 app = Flask(__name__)
 CORS(app)
+
+# SQLAlchemy setup
+engine = create_engine('sqlite:///users.db')
+Base.metadata.create_all(engine)
+SessionLocal = sessionmaker(bind=engine)
 
 @app.route("/graphql", methods=["POST"])
 def graphql_server():
