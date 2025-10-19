@@ -1,5 +1,3 @@
-
-
 # GraphQL User Management
 
 ![Build Status](https://github.com/your-username/graphql-user-management/actions/workflows/python-app.yml/badge.svg)
@@ -20,7 +18,6 @@ A comprehensive user management system built with Python, Flask, and Graphene. I
 - [Contributing](#contributing)
 - [License](#license)
 
-
 ## Features
 
 - **Create User**: Add new users with full details (name, email, address, phone, roles).
@@ -32,7 +29,6 @@ A comprehensive user management system built with Python, Flask, and Graphene. I
 - **Input Validation**: Ensures required fields and valid email formats.
 - **Comprehensive Testing**: Unit and integration tests for all major features.
 
-
 ## Changelog: SQLAlchemy Integration (feature/sqlalchemy-integration)
 
 ### What's new in this version?
@@ -40,15 +36,18 @@ A comprehensive user management system built with Python, Flask, and Graphene. I
 - **SQLAlchemy Integration:**
    - All user management logic now uses SQLAlchemy ORM and a SQLite database for persistent storage.
    - The `UserModel` class defines the database schema for users.
+
 - **Test Database Isolation:**
+
    - Tests now use a separate SQLite database (`test.db`) for isolation and reliability.
    - The test database is reset before each test run to ensure clean state.
 - **Refactored Queries & Mutations:**
+
    - All GraphQL queries and mutations now interact with the database instead of in-memory lists.
    - Integration tests send real HTTP requests to the running Flask app and verify database-backed behavior.
+
 - **Versioning & Branches:**
    - Major changes are developed in feature branches (e.g., `feature/sqlalchemy-integration`) and merged to `main` after review and successful tests.
-
 
 This project uses feature branches for major changes. For example, the SQLAlchemy integration and test database isolation are implemented in the `feature/sqlalchemy-integration` branch. To work on a new feature or refactor, create a new branch:
 
