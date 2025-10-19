@@ -1,6 +1,9 @@
 import unittest
 import requests
 import logging
+import os
+from models.user_model import Base
+from sqlalchemy import create_engine
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -9,7 +12,12 @@ class TestGraphQLAPIIntegration(unittest.TestCase):
     URL = "http://localhost:5050/graphql"
 
     def setUp(self):
-        self.headers = {'Content-Type': 'application/json'}
+      self.headers = {'Content-Type': 'application/json'}
+      # Use test database
+      os.environ['TESTING'] = '1'
+      self.engine = create_engine('sqlite:///test.db')
+      Base.metadata.drop_all(self.engine)
+      Base.metadata.create_all(self.engine)
 
     def execute_query(self, query):
         response = requests.post(self.URL, json={'query': query}, headers=self.headers)
