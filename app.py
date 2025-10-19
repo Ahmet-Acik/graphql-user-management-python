@@ -10,6 +10,7 @@ from mutations.update_user import UpdateUser
 from mutations.delete_user import DeleteUser
 from models.user import User
 from data import users
+import os
 
 class MyMutations(graphene.ObjectType):
     create_user = CreateUser.Field()
@@ -46,7 +47,10 @@ app = Flask(__name__)
 CORS(app)
 
 # SQLAlchemy setup
-engine = create_engine('sqlite:///users.db')
+db_url = 'sqlite:///users.db'
+if os.environ.get('TESTING') == '1':
+    db_url = 'sqlite:///test.db'
+engine = create_engine(db_url)
 Base.metadata.create_all(engine)
 SessionLocal = sessionmaker(bind=engine)
 
