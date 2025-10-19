@@ -4,3 +4,6 @@ flask-cors
 requests
 responses
 pyyaml
+sqlalchemy
+pytest
+pytest-mock
