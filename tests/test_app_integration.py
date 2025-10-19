@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class TestGraphQLAPIIntegration(unittest.TestCase):
-    URL = "http://localhost:5050/graphql"
+    URL = "http://localhost:5051/graphql"
 
     def setUp(self):
       self.headers = {'Content-Type': 'application/json'}
